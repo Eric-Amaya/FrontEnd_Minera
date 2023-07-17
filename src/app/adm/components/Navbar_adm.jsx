@@ -4,8 +4,17 @@ import Burguerbttn from './Burguerbttn';
 import MiLogo from './logo_adm';;
 
 function Navbar() {
+  const router = useRouter();
   const [clicked, setClicked] = useState(false);
   const handleClick = () => setClicked(!clicked);
+  const handleLogout = () => {
+    // Eliminar token y datos de usuario del almacenamiento local
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setClicked(!clicked)
+    router.push("/");
+  };
+
   return (
     <>
       <NavContainer>
@@ -18,7 +27,7 @@ function Navbar() {
                 <a className='hover:underline text-white' onClick= {handleClick} href="/adm/usuarios">Usuarios</a>
                 <a className='hover:underline text-white' onClick= {handleClick} href="/adm/adduser">Agregar usuario</a>
                 <a className='hover:underline text-white' onClick= {handleClick} href="/adm/perfil">Perfil</a>
-                <a className='hover:underline text-white' onClick= {handleClick} href="/">Cerrar sesión</a>
+                <a className='hover:underline text-white' onClick= {handleLogout}  href="/">Cerrar sesión</a>
               </div>
             </div>  
             <div className='burguer'>

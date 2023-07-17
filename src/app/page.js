@@ -10,6 +10,7 @@ const Home = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [userRole, setUserRole] = useState("");
   const [error, setError] = useState("");
 
   const validateEmail = (email) => {
@@ -49,7 +50,14 @@ const Home = () => {
         if (result.token) {
           localStorage.setItem("token", result.token);
           localStorage.setItem("user", JSON.stringify(result.User));
-          router.push("/inicio");
+
+          if (userRole === "admin") {
+            router.push("/admin/inicio");
+          } else if (userRole === "user") {
+            router.push("/user/inicio");
+          } else {
+            router.push("/unauthorized");
+          }
         } else {
           setError("Credenciales inválidas");
         }
