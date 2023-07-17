@@ -4,7 +4,6 @@ import Burguerbttn from './Burguerbttn';
 import MiLogo from './logo_adm';;
 
 function Navbar() {
-  const router = useRouter();
   const [clicked, setClicked] = useState(false);
   const handleClick = () => setClicked(!clicked);
   const handleLogout = () => {
@@ -12,7 +11,7 @@ function Navbar() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setClicked(!clicked)
-    router.push("/");
+    window.location.href = '/';
   };
 
   return (
