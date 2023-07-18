@@ -14,6 +14,10 @@ function Navbar() {
     window.location.href = '/';
   };
 
+<<<<<<< HEAD
+=======
+  // Hola
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
   return (
     <>
       <NavContainer>

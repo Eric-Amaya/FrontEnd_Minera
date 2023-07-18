@@ -1,9 +1,17 @@
 "use client";
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
+=======
+import React, { useState } from "react";
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
 import { useRouter } from "next/navigation";
 import MiLogo from "src/components/logo";
 import Boton from "src/components/boton";
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
 const Home = () => {
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -18,6 +26,7 @@ const Home = () => {
   };
 
   const isButtonDisabled = () => {
+<<<<<<< HEAD
     return !username || !password || !validateEmail(username);
   };
 
@@ -29,6 +38,10 @@ const Home = () => {
       setUserRole(parsedUser.role);
     }
   }, []);
+=======
+    return (!username || !password || !validateEmail(username)); 
+  }  
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,14 +50,23 @@ const Home = () => {
       setError("Debe completar todos los campos");
       return;
     }
+<<<<<<< HEAD
 
     const data = {
       email: username,
+=======
+    const data = {
+      name: username,
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
       password: password,
     };
 
     try {
+<<<<<<< HEAD
       const response = await fetch("http://localhost:3001/auth/login", {
+=======
+      const response = await fetch("http://localhost:3000/auth/login", {
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,14 +80,30 @@ const Home = () => {
 
         if (result.token) {
           localStorage.setItem("token", result.token);
+<<<<<<< HEAD
           localStorage.setItem("user", JSON.stringify(result.user));
 
           setUserRole(result.user.role);
+=======
+          localStorage.setItem("user", JSON.stringify(result.User));
+
+          if (userRole === "admin") {
+            router.push("/admin/inicio");
+          } else if (userRole === "user") {
+            router.push("/user/inicio");
+          } else {
+            router.push("/unauthorized");
+          }
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
         } else {
           setError("Credenciales inválidas");
         }
       } else {
+<<<<<<< HEAD
         setError("Error en la solicitud");
+=======
+        throw new Error("Error en la solicitud");
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
       }
     } catch (error) {
       console.error("Error:", error);
@@ -73,6 +111,7 @@ const Home = () => {
     }
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     // Observar cambios en userRole para redirigir correctamente
     if (userRole === "admin") {
@@ -84,6 +123,8 @@ const Home = () => {
     }
   }, [userRole]);
 
+=======
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
   const handleForgotPassword = () => {
     router.push("/olvidar_contrasena");
   };
@@ -102,7 +143,11 @@ const Home = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+<<<<<<< HEAD
 //hola
+=======
+
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
   return (
     <div>
       <title>Minerales Raros S.A.</title>
@@ -156,7 +201,11 @@ const Home = () => {
                 className="bg-gray-300 rounded-xl px-3 ml-2 mt-4 focus:outline-none"
                 onClick={toggleShowPassword}
               >
+<<<<<<< HEAD
                 {showPassword ? <Boton ruta={"ojo-abierto"} /> : <Boton ruta={"cerrar-ojo"} />}
+=======
+                {showPassword ? <Boton ruta = {"ojo-abierto"}></Boton> : <Boton ruta = {"cerrar-ojo"}></Boton>}
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
               </button>
             </div>
           </div>
@@ -165,7 +214,11 @@ const Home = () => {
             <button
               type="submit"
               className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-2 rounded font-semibold"
+<<<<<<< HEAD
               onClick={handleSubmit}
+=======
+              onClick={() => window.location.href = '/adm/inicio'}
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
               disabled={isButtonDisabled()}
             >
               Enviar
@@ -195,3 +248,8 @@ const Home = () => {
 }
 
 export default Home;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 8cc095d5d05435838790a71127415b9a0e076f7f
