@@ -14,6 +14,7 @@ function Navbar() {
     window.location.href = '/';
   };
 
+  // Hola
   return (
     <>
       <NavContainer>
