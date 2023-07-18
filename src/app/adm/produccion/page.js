@@ -58,16 +58,6 @@ export default function Produccion() {
       });
   };
 
-  const handleExport = () => {
-    // Lógica para exportar el archivo
-    console.log("Archivo exportado");
-  };
-
-  const handleSaveChanges = () => {
-    // Lógica para guardar los cambios
-    console.log("Cambios guardados");
-  };
-
   const handleFilterToggle = () => {
     setIsFilterOpen(!isFilterOpen);
   };
@@ -147,23 +137,11 @@ export default function Produccion() {
             </div>
             <button className="bg-white hover:bg-gray-200 text-gray-800 px-4 py-2 rounded ml-40 mr-5" onClick={handleRefresh}>Recargar</button>
             <input type="file" onChange={handleFileUpload} className="hidden" />
-      <button
-        onClick={handleImportClick}
-        className="bg-white hover:bg-gray-200 text-gray-800 px-4 py-2 rounded ml-40 mr-5"
-      >
-        Importar archivo
-      </button>
             <button
-              onClick={handleExport}
-              className="bg-white hover:bg-gray-200 text-gray-800 px-4 py-2 rounded ml-2 mr-5"
+              onClick={handleImportClick}
+              className="bg-white hover:bg-gray-200 text-gray-800 px-4 py-2 rounded ml-40 mr-5"
             >
-              Exportar archivo
-            </button>
-            <button
-              onClick={handleSaveChanges}
-              className="bg-white hover:bg-gray-200 text-gray-800 px-4 py-2 rounded ml-2"
-            >
-              Guardar cambios
+              Importar archivo
             </button>
           </div>
         </div>

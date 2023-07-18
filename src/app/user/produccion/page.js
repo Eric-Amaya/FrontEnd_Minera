@@ -41,16 +41,6 @@ export default function Produccion() {
     console.log('Archivo cargado:', file);
   };
 
-  const handleExport = () => {
-    // Lógica para exportar el archivo
-    console.log('Archivo exportado');
-  };
-
-  const handleSaveChanges = () => {
-    // Lógica para guardar los cambios
-    console.log('Cambios guardados');
-  };
-
   const handleFilterToggle = () => {
     setIsFilterOpen(!isFilterOpen);
   };
