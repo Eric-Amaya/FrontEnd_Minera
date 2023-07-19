@@ -1,86 +1,124 @@
 "use client";
+import React, { useState } from 'react';
 import Navbar from '@/app/adm/components/Navbar_adm';
-import { useState , useEffect} from 'react';
-import Table from './components/Tabla';
+import Logo from './components/logo_mensual';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function Reportes() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [valor_diario, setValorDiario] = useState(0);
+  const [valor_semanal_iso, setValorSemanalIso] = useState(0);
+  const [valor_semanal_movil, setValorSemanalMovil] = useState(0);
+  const [valor_mensual, setValorMensual] = useState(0);
+  const [rajo, setRajo] = useState('');
+  const [fase, setFase] = useState('');
 
-  useEffect(() => {
-    // Realizar la solicitud HTTP a la API para obtener los datos
-    fetch("http://localhost:3001/csv/busqueda-reportes")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("La solicitud no fue exitosa.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setData(data); // Actualizar el estado con los datos obtenidos
-      })
-      .catch((error) => {
-        console.error("Error al obtener los datos:", error);
-      });
-  }, []);
-
-  const handleSearch = () => {
-    fetch(`http://localhost:3001/csv/busqueda-reportes?filter_parameter=${searchQuery}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('La solicitud no fue exitosa.');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setData(data); // Actualizar el estado con los datos de la API
-      })
-      .catch((error) => {
-        console.error('Error al realizar la búsqueda:', error);
-      });
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
   };
 
-  const handleFilterToggle = () => {
-    setIsFilterOpen(!isFilterOpen);
+  const handleSearch = () => {
+    // Aquí puedes realizar la búsqueda utilizando los valores de rajo, fase y selectedDate
+    // y actualizar los valores correspondientes (valor_diario, valor_semanal_iso, etc.)
+
+    // Ejemplo:
+    const valor_diario = 10;
+    const valor_semanal_iso = 20;
+    const valor_semanal_movil = 30;
+    const valor_mensual = 40;
+
+    // Actualizar los valores en el estado
+    setValorDiario(valor_diario);
+    setValorSemanalIso(valor_semanal_iso);
+    setValorSemanalMovil(valor_semanal_movil);
+    setValorMensual(valor_mensual);
   };
 
   return (
     <>
-    <title>Reportes - Minerales Raros S.A.</title>
-    <Navbar></Navbar>
-    <header className='fixed w-full top-24 z-20'>
-      <div className="bg-gray-400 p-4">
-        <div className="flex justify-start mx-2 ">
-          <input
-            type="text"
-            placeholder="Buscar..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="px-4 py-1 border border-gray-300 rounded mr-2"
-          />
-          <button onClick={handleSearch} className="bg-white hover:bg-gray-300 text-gray-900 px-4 py-2 rounded ml-2">
-            Buscar
-          </button>
-          <div className="relative inline-block">
-            <button onClick={handleFilterToggle} className="bg-white hover:bg-gray-300 text-gray-800 px-4 py-2 rounded ml-24">
-              Filtrar por
-            </button>
-            {isFilterOpen && (
-              <div className="absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-lg">
-                <button onClick={() => handleFilterByFase('Fase')} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full h-full">
-                  Fase
-                </button>
-                <button onClick={() => handleFilterByRajo('Rajo')} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full h-full">
-                  Rajo
-                </button>
+      <title>Reporte - Minerales Raros S.A.</title>
+      <Navbar />
+      <div className="mt-40 ml-8">
+        <div className="container mx-auto p-4 -mt-16">
+          <div className="flex justify-start items-center font-semibold">
+            <h1 className="text-4xl mr-4">Reporte</h1>
+            <p className="text-4xl mr-4">Rajo {rajo}</p>
+            <p className="text-4xl">Fase {fase}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-4 mt-8">
+            <div className="bg-white p-4 shadow-lg rounded-lg">
+              <h2 className="text-2xl font-bold mb-4">Diaria</h2>
+              <div className="flex justify-between">
+                <p>Valor Real: {valor_diario}</p>
+                <Logo ruta="diario" />
               </div>
-            )}
+            </div>
+            <div className="bg-white p-4 shadow-lg rounded-lg">
+              <h2 className="text-2xl font-bold mb-4">Semanal ISO</h2>
+              <div className="flex justify-between">
+                <p>Valor Real: {valor_semanal_iso}</p>
+                <Logo ruta="semanal_iso" />
+              </div>
+              <></>
+            </div>
+            <div className="bg-white p-4 shadow-lg rounded-lg">
+              <h2 className="text-2xl font-bold mb-4">Semanal Movil</h2>
+              <div className="flex justify-between">
+                <p>Valor Real: {valor_semanal_movil}</p>
+                <Logo ruta="semanal_movil" />
+              </div>
+            </div>
+            <div className="bg-white p-4 shadow-lg rounded-lg">
+              <h2 className="text-2xl font-bold mb-4">Mensual</h2>
+              <div className="flex justify-between">
+                <p>Valor Real: {valor_mensual}</p>
+                <Logo ruta="mensual" />
+              </div>
+            </div>
+          </div>
+          <div className="mt-8">
+            <h2 className="text-3xl font-bold">Buscar</h2>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div>
+                <label className="block font-semibold mb-1">Rajo:</label>
+                <input
+                  type="text"
+                  value={rajo}
+                  onChange={(e) => setRajo(e.target.value)}
+                  className="px-3 py-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Fase:</label>
+                <input
+                  type="text"
+                  value={fase}
+                  onChange={(e) => setFase(e.target.value)}
+                  className="px-3 py-2 border rounded"
+                />
+              </div>
+            </div>
+            <div className="mt-4">
+              <label className="block font-semibold mb-1">Fecha:</label>
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                className="px-3 py-2 border rounded datepicker"
+                dateFormat="dd/MM/yyyy"
+              />
+            </div>
+            <div className="mt-4">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleSearch}
+              >
+                Buscar
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </header>  
-    <Table data={data}/>
     </>
   );
 }
