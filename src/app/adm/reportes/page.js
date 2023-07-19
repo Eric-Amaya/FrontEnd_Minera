@@ -1,15 +1,44 @@
 "use client";
 import Navbar from '@/app/adm/components/Navbar_adm';
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import Table from './components/Tabla';
 
 export default function Reportes() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // Realizar la solicitud HTTP a la API para obtener los datos
+    fetch("http://localhost:3001/csv/busqueda-reportes")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("La solicitud no fue exitosa.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data); // Actualizar el estado con los datos obtenidos
+      })
+      .catch((error) => {
+        console.error("Error al obtener los datos:", error);
+      });
+  }, []);
 
   const handleSearch = () => {
-    // Lógica de búsqueda según searchQuery
-    console.log(`Búsqueda: ${searchQuery}`);
+    fetch(`http://localhost:3001/csv/busqueda-reportes?filter_parameter=${searchQuery}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('La solicitud no fue exitosa.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data); // Actualizar el estado con los datos de la API
+      })
+      .catch((error) => {
+        console.error('Error al realizar la búsqueda:', error);
+      });
   };
 
   const handleFilterToggle = () => {
@@ -51,7 +80,7 @@ export default function Reportes() {
         </div>
       </div>
     </header>  
-    <Table rows={20} columns={2} />
+    <Table data={data}/>
     </>
   );
 }

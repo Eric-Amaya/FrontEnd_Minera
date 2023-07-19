@@ -12,6 +12,7 @@ export default function Produccion() {
   const [selectedDate, setSelectedDate] = useState(startOfDay(new Date()));
   const [selectedFase, setSelectedFase] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [data, setData] = useState([]);
 
   const filterMenuRef = useRef(null);
 
@@ -33,11 +34,44 @@ export default function Produccion() {
     };
   }, []);
 
-  const handleSearch = () => {
-    // Lógica de búsqueda según searchQuery
-    console.log(`Búsqueda: ${searchQuery}`);
-  };
+  useEffect(() => {
+    // Realizar la solicitud HTTP a la API para obtener los datos
+    fetch(
+      `http://localhost:3001/csv/filtro-produccion-fecha?filter_parameter=${startOfDay(
+        new Date()
+      )}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("La solicitud no fue exitosa.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data); // Actualizar el estado con los datos obtenidos
+      })
+      .catch((error) => {
+        console.error("Error al obtener los datos:", error);
+      });
+  }, []);
 
+  const handleSearch = () => {
+    fetch(
+      `http://localhost:3001/csv/busqueda-produccion?filter_parameter=${searchQuery}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("La solicitud no fue exitosa.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data); // Actualizar el estado con los datos filtrados
+      })
+      .catch((error) => {
+        console.error("Error al realizar la solicitud:", error);
+      });
+  };
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
@@ -64,6 +98,21 @@ export default function Produccion() {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    fetch(
+      `http://localhost:3001/csv/filtro-produccion-fecha?filter_parameter=${selectedDate}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("La solicitud no fue exitosa.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data); // Actualizar el estado con los datos obtenidos
+      })
+      .catch((error) => {
+        console.error("Error al obtener los datos:", error);
+      });
   };
 
   const handleFaseChange = (event) => {
@@ -73,10 +122,9 @@ export default function Produccion() {
   const handleMaterialChange = (event) => {
     setSelectedMaterial(event.target.value);
   };
-  
-  const handleImportClick = () => {
-    document.querySelector('input[type=file]').click();
 
+  const handleImportClick = () => {
+    document.querySelector("input[type=file]").click();
   };
   const handleRefresh = () => {
     window.location.reload();
@@ -117,7 +165,7 @@ export default function Produccion() {
                       onChange={handleDateChange}
                       className="block px-4 py-2 text-gray-800 hover:bg-gray-300 text-center w-full h-full cursor-pointer"
                       placeholderText="Seleccionar fecha"
-                      dateFormat="dd/MM/yyyy"
+                      dateFormat="dd-MM-yyyy"
                     />
                   </div>
                   <button
@@ -135,7 +183,12 @@ export default function Produccion() {
                 </div>
               )}
             </div>
-            <button className="bg-white hover:bg-gray-200 text-gray-800 px-4 py-2 rounded ml-40 mr-5" onClick={handleRefresh}>Recargar</button>
+            <button
+              className="bg-white hover:bg-gray-200 text-gray-800 px-4 py-2 rounded ml-40 mr-5"
+              onClick={handleRefresh}
+            >
+              Recargar
+            </button>
             <input type="file" onChange={handleFileUpload} className="hidden" />
             <button
               onClick={handleImportClick}
@@ -146,7 +199,7 @@ export default function Produccion() {
           </div>
         </div>
       </header>
-      <Table rows={30} columns={4} />
+      <Table data={data} />
     </>
   );
 }
